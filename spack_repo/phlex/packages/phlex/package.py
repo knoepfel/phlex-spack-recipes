@@ -47,7 +47,8 @@ class Phlex(CMakePackage, FnalGithubPackage):
     depends_on("fmt@11.2:")
     depends_on("jsonnet")
     depends_on("spdlog")
-    depends_on("tbb")
+    depends_on("tbb", when="@:0.3")
+    depends_on("tbb@2023", when="@0.4:")
     depends_on("catch2", type=("build", "test"))
 
     # Python dependencies
