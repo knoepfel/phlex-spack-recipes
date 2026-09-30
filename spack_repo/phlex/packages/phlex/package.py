@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
+import sys
+
 from spack_repo.builtin.build_systems.cmake import CMakePackage
 from spack_repo.fnal_art.packages.fnal_github_package.package import *
 
@@ -47,8 +49,16 @@ class Phlex(CMakePackage, FnalGithubPackage):
     depends_on("fmt@11.2:")
     depends_on("jsonnet")
     depends_on("spdlog")
-    depends_on("tbb", when="@:0.3")
-    depends_on("tbb@2023", when="@0.4:")
+    depends_on("tbb")
+    # TBB providers currently declare an unversioned ``provides("tbb")``, so a
+    # virtual constraint such as ``tbb@2023:`` does not constrain the provider's
+    # package version. Select and version the concrete provider explicitly.
+    with when("@0.4:"):
+        if sys.platform == "darwin":
+            requires("^[virtuals=tbb] intel-tbb@2023:")
+        else:
+            requires("^[virtuals=tbb] intel-oneapi-tbb@2023:")
+
     depends_on("catch2", type=("build", "test"))
 
     # Python dependencies
