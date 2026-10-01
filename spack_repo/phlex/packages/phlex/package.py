@@ -4,11 +4,26 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 import sys
+from importlib import import_module
 
 from spack_repo.builtin.build_systems.cmake import CMakePackage
 from spack_repo.fnal_art.packages.fnal_github_package.package import *
 
 from spack.package import *
+
+# Support builtin repository snapshots from before the cppgsl rename.
+try:
+    import_module("spack_repo.builtin.packages.ms_gsl.package")
+except ModuleNotFoundError as exc:
+    # Distinguish "not present" from "failed to load"
+    if exc.name not in {
+        "spack_repo.builtin.packages.ms_gsl",
+        "spack_repo.builtin.packages.ms_gsl.package",
+    }:
+        raise
+    _gsl_dependency = "cppgsl@4:"
+else:
+    _gsl_dependency = "ms-gsl@4:"
 
 
 class Phlex(CMakePackage, FnalGithubPackage):
@@ -47,7 +62,7 @@ class Phlex(CMakePackage, FnalGithubPackage):
     depends_on("cxx", type="build")
 
     depends_on("boost@1.88.0: +json+program_options")
-    depends_on("cppgsl@4:", when="@0.4:")
+    depends_on(_gsl_dependency, when="@0.4:")
     depends_on("fmt@11.2:")
     depends_on("jsonnet")
     depends_on("spdlog")
