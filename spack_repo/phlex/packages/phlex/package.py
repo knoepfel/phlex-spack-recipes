@@ -74,9 +74,12 @@ class Phlex(CMakePackage, FnalGithubPackage):
     with when("@0.4:"):
         # Prefer intel-oneapi-tbb on Linux x86_64
         requires(
-            "^[virtuals=tbb] intel-oneapi-tbb@2023:", when="platform=linux target=x86_64",
+            "^[virtuals=tbb] intel-oneapi-tbb@2023:", when="platform=linux target=x86_64:",
         )
-        requires("^[virtuals=tbb] intel-tbb@2023:", when="platform=linux target=aarch64,ppc64,ppc64le")
+        requires(
+            "^[virtuals=tbb] intel-tbb@2023:",
+            when="platform=linux target=aarch64:,ppc64:,ppc64le:",
+        )
         requires("^[virtuals=tbb] intel-tbb@2023:", when="platform=Darwin")
 
 
