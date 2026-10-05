@@ -40,6 +40,7 @@ class Phlex(CMakePackage, FnalGithubPackage):
     version("develop", branch="main", get_full_repo=True)
 
     # Released versions
+    version("0.4.2", sha256="117fa5cf2d9cb1cdd43c157f5961758e3e4fec60951b637743dcdfd6a3e1a393")
     version("0.4.1", sha256="0067d84f3c132a63f5c5a447efac706ae3b79e841733024ea51e7428fd9dd670")
     version("0.4.0", sha256="4b30a5eb82127087df84010fe80227a4357d893c6c35aadec4c87a817303552b")
     version("0.3.2", sha256="0b10cd4ab6c43019fb2c216014f4666bc643647a06a464815a2a5c6f1536ce89")
